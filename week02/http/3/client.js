@@ -80,12 +80,12 @@ class ResponseParser {
 
     receive(string) {
         for(let i=0; i<string.length; i++) {
-            this.receiveChar(i, string.charAt(i));
+            this.receiveChar(string.charAt(i));
         }
     }
 
-    receiveChar(i, char) {
-        console.log(i, char, this.current);
+    receiveChar(char) {
+        console.log(char, this.current);
         if(this.current === this.WAITING_STATUS_LINE) {
             if(char === '\r') {
                 this.current = this.WAITING_STATUS_LINE_END;
@@ -120,7 +120,7 @@ class ResponseParser {
             } else {
                 this.headerValue += char;
             }
-        } else if(this.current = this.WAITING_HEADER_LINE_END) {
+        } else if(this.current === this.WAITING_HEADER_LINE_END) {
             if(char === '\n') {
                 this.current = this.WAITING_HEADER_NAME;
             }
@@ -162,6 +162,7 @@ class TrunkedBodyParser {
     }
 
     receiveChar(char) {
+        console.log('char', char);
         if(this.current === this.WAITING_LENGTH) {
             if(char === '\r') {
                 if(this.length === 0) {
@@ -170,9 +171,9 @@ class TrunkedBodyParser {
                 this.current = this.WAITING_LENGTH_LINE_END;
             } else {
                 this.length *= 16;
-                this.length += parseInt(CHAR, 16);
+                this.length += parseInt(char, 16);
             }
-        } else if(this.current === THIS.WAITING_LENGTH_LINE_END) {
+        } else if(this.current === this.WAITING_LENGTH_LINE_END) {
             if(char === '\n') {
                 this.current = this.READING_TRUNK;
             }
