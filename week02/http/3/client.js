@@ -80,11 +80,12 @@ class ResponseParser {
 
     receive(string) {
         for(let i=0; i<string.length; i++) {
-            this.receiveChar(string.charAt(i));
+            this.receiveChar(i, string.charAt(i));
         }
     }
 
-    receiveChar(char) {
+    receiveChar(i, char) {
+        console.log(i, char, this.current);
         if(this.current === this.WAITING_STATUS_LINE) {
             if(char === '\r') {
                 this.current = this.WAITING_STATUS_LINE_END;
@@ -107,7 +108,7 @@ class ResponseParser {
                 this.headerName += char;
             }
         } else if(this.current === this.WAITING_HEADER_SPACE) {
-            if(char === '\r') {
+            if(char === ' ') {
                 this.current = this.WAITING_HEADER_VALUE;
             }
         } else if(this.current === this.WAITING_HEADER_VALUE) {
@@ -117,7 +118,7 @@ class ResponseParser {
                 this.headerName = '';
                 this.headerValue = '';
             } else {
-                this.headerValue = char;
+                this.headerValue += char;
             }
         } else if(this.current = this.WAITING_HEADER_LINE_END) {
             if(char === '\n') {
