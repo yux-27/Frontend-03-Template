@@ -31,3 +31,9 @@
 - 我们这里采用了 npm 包 images
 - 绘制是在一个viewport上进行
 - 与绘制相关的属性： background-color、border、background-image等
+
+### 渲染 | 绘制DOM树
+- 递归调用子元素的绘制方法完成DOM树的绘制
+- 忽略一些不需要绘制的节点
+- 实际浏览器中，文字绘制是难点，需要依赖字体库，我们这里忽略
+- 实际浏览器中，还会对一些图层做compositing，我们这里也忽略了
